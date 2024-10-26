@@ -1,14 +1,12 @@
-package models
+package entities
 
 import "time"
 
 type Book struct {
 	ID            uint64
 	Title         string
-	Authors       []Author
-	Categories    Category
+	CategoryID    uint64
 	YearPublished int64
-	Publishers    []Publisher
 	ISBN          string
 	Amount        uint64
 }
@@ -18,12 +16,22 @@ type Author struct {
 	Name string
 }
 
-type Category struct {
+type BookAuthor struct {
+	BookID   uint64
+	AuthorID uint64
+}
+
+type Publisher struct {
 	ID   uint64
 	Name string
 }
 
-type Publisher struct {
+type BookPublisher struct {
+	BookID   uint64
+	AuthorID uint64
+}
+
+type Category struct {
 	ID   uint64
 	Name string
 }
@@ -41,8 +49,8 @@ type Customer struct {
 
 type BookLoan struct {
 	ID           uint64
-	Book         Book
-	Customer     Customer
+	BookID       uint64
+	CustomerID   uint64
 	DateLoaned   time.Time
 	DateDue      time.Time
 	DateReturned time.Time

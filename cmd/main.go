@@ -2,7 +2,7 @@ package main
 
 import (
 	"db-coursework/internal/config"
-	postgresql "db-coursework/pkg/postgresql_client"
+	postgresql "db-coursework/pkg/postgresql"
 	"log"
 )
 
@@ -13,6 +13,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect to db: %s", err)
 	}
-
 	_ = conn
+
+	postgresql.Migrate(cfg.PostgreSQL)
+
 }

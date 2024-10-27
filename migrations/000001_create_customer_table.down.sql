@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS customer;
+DROP TYPE gender;

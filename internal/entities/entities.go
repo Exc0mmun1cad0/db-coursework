@@ -1,3 +1,4 @@
+//* This package looks useless. Maybe I'll delete it in the future
 package entities
 
 import "time"
@@ -37,14 +38,15 @@ type Category struct {
 }
 
 type Customer struct {
-	LastName   string
-	FirstName  string
-	FatherName string
-	Gender     string
-	BirthDate  time.Time
-	Phone      string
-	Email      string
-	Address    string
+	ID          uint64    `db:"id"`
+	LastName    string    `db:"last_name"`
+	FirstName   string    `db:"first_name"`
+	FatherName  string    `db:"father_name"`
+	Gender      string    `db:"gender"`
+	DateOfBirth time.Time `db:"date_of_birth"`
+	Phone       string    `db:"phone"`
+	Email       string    `db:"email"`
+	Address     string    `db:"address"`
 }
 
 type BookLoan struct {

@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Book struct {
 	ID            uint64
@@ -29,14 +31,15 @@ type Publisher struct {
 }
 
 type Customer struct {
-	LastName   string
-	FirstName  string
-	FatherName string
-	Gender     string
-	BirthDate  time.Time
-	Phone      string
-	Email      string
-	Address    string
+	ID          uint64
+	LastName    string
+	FirstName   string
+	FatherName  string
+	Gender      string
+	DateofBirth time.Time `time_format:"api_datetime"`
+	Phone       string
+	Email       string
+	Address     string
 }
 
 type BookLoan struct {

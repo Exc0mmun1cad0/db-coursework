@@ -2,12 +2,12 @@ package randomdatatools
 
 import (
 	"db-coursework/internal/models"
-	"encoding/json"
 	"io"
 	"net/http"
 	"net/url"
 	"strconv"
 
+	jsontime "github.com/liamylian/jsontime/v2/v2"
 	"github.com/pkg/errors"
 )
 
@@ -15,6 +15,16 @@ var (
 	apiParams = "LastName,FirstName,FatherName,Gender,DateOfBirth,Phone,Email,Address"
 	apiURL    = "https://api.randomdatatools.ru"
 )
+
+var json = jsontime.ConfigWithCustomTimeFormat
+
+const (
+	dateFormat = "02.01.2006"
+)
+
+func init() {
+	jsontime.AddTimeFormatAlias("api_datetime", dateFormat)
+}
 
 func GetCustomers(count int) ([]models.Customer, error) {
 	result := make([]models.Customer, count)

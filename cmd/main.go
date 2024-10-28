@@ -2,7 +2,7 @@ package main
 
 import (
 	"db-coursework/internal/config"
-	postgresql "db-coursework/pkg/postgresql"
+	"db-coursework/pkg/postgresql"
 	"log"
 )
 

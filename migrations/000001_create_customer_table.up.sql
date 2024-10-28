@@ -1,4 +1,4 @@
-CREATE TYPE gender AS ENUM('male', 'female');
+CREATE TYPE gender AS ENUM('мужчина', 'женщина');
 CREATE TABLE IF NOT EXISTS customer
 (
     customer_id SERIAL PRIMARY KEY,

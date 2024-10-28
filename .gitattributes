@@ -1,0 +1,3 @@
+*.yaml linguist-detectable=true
+*.sql linguist-detectable=true
+*.go linguist-detectable=Go

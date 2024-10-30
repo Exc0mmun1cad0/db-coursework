@@ -1,18 +1,18 @@
 CREATE TABLE IF NOT EXISTS publisher (
     publisher_id SERIAL PRIMARY KEY,
-    publisher_name VARCHAR(127) NOT NULL
+    publisher_name VARCHAR(127) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS category
 (
     category_id SERIAL PRIMARY KEY,
-    category_name VARCHAR(63) NOT NULL
+    category_name VARCHAR(63) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS author
 (
     author_id SERIAL PRIMARY KEY,
-    author_name VARCHAR(63) NOT NULL
+    author_name VARCHAR(63) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS book

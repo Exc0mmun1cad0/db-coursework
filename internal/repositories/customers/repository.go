@@ -46,6 +46,8 @@ func (r *repository) AddCustomers(customers []models.Customer) ([]int, error) {
 	return createdCustomersIDs, nil
 }
 
+// TODO: maybe i can refactor it to return created []models.Customer
+// TODO: but before this return statement i should add id to passed []models.Customer as argument
 func (r *repository) addCustomers(customers []models.Customer) ([]int, error) {
 	if len(customers) == 0 {
 		return nil, nil
@@ -68,7 +70,7 @@ func (r *repository) addCustomers(customers []models.Customer) ([]int, error) {
 	query := fmt.Sprintf(`
 		INSERT INTO customer (last_name, first_name, father_name, gender, date_of_birth, phone, email, address)
 		VALUES %s
-		RETURNING id
+		RETURNING customer_id
 	`, strings.Join(valuesQuery, ", "))
 
 	rows, err := r.db.Query(query, valuesArgs...)

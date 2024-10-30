@@ -11,10 +11,10 @@ var (
 )
 
 // Online store API needs token of Bearer format to have access to store information
-func AuthToken(url string) (string, error) {
+func AuthToken() (string, error) {
 	const op = "chitaigorod.AuthToken"
 
-	resp, err := http.Get(url)
+	resp, err := http.Get(chitaiGorodURL)
 	if err != nil {
 		return "", fmt.Errorf("%s: %w", op, err)
 	}

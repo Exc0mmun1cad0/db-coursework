@@ -4,11 +4,13 @@ import (
 	rdt "db-coursework/internal/api/random_data_tools"
 	"db-coursework/internal/config"
 	"db-coursework/pkg/postgresql"
+	"fmt"
 	"log"
 
 	"db-coursework/internal/repositories/customers"
 )
 
+// TODO: create usecase with repository interfaces as fields and pass their implementations to it
 func main() {
 	cfg := config.MustLoad()
 
@@ -31,5 +33,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("added customers data")
 
 }

@@ -3,6 +3,18 @@ package entities
 
 import "time"
 
+type Customer struct {
+	ID          uint64
+	LastName    string
+	FirstName   string
+	FatherName  string
+	Gender      string
+	DateOfBirth time.Time
+	Phone       string
+	Email       string
+	Address     string
+}
+
 type Book struct {
 	ID            uint64
 	Title         string
@@ -35,18 +47,6 @@ type BookPublisher struct {
 type Category struct {
 	ID   uint64
 	Name string
-}
-
-type Customer struct {
-	ID          uint64    `db:"id"`
-	LastName    string    `db:"last_name"`
-	FirstName   string    `db:"first_name"`
-	FatherName  string    `db:"father_name"`
-	Gender      string    `db:"gender"`
-	DateOfBirth time.Time `db:"date_of_birth"`
-	Phone       string    `db:"phone"`
-	Email       string    `db:"email"`
-	Address     string    `db:"address"`
 }
 
 type BookLoan struct {

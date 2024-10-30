@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
 )
 
 const (
@@ -23,53 +24,31 @@ func NewRepository(db *sqlx.DB) *repository {
 	}
 }
 
-func (r *repository) AddPublisher(publisher models.Publisher) (uint64, error) {
-	var publisherID uint64
-	err := r.db.Get(
-		&publisherID, `
-			INSERT INTO publisher(publisher_name)
-			VALUES ($1)
-			RETURNING publisher_id
-			ON CONFLICT DO NOTHING;
-		`, publisher.Name,
-	)
+func (r *repository) addAttribute(attribute models.BookAttribute, name string) (uint64, error) {
+	var attributeID uint64
+
+	query := fmt.Sprintf(`
+		INSERT INTO %s(%s_name) VALUES($1)
+		RETURNING %s_id
+		ON CONFLICT DO NOTHING;
+	`, name, name, name)
+
+	err := r.db.Get(&attributeID, query, attribute.GetName())
 	if err != nil {
-		return 0, fmt.Errorf("error during publisher insert")
+		return 0, errors.Wrap(err, fmt.Sprintf("error during %s insert", name))
 	}
 
-	return publisherID, nil
+	return attributeID, nil
+}
+
+func (r *repository) AddPublisher(publisher models.Publisher) (uint64, error) {
+	return r.addAttribute(publisher, "publisher")
 }
 
 func (r *repository) AddCategory(category models.Category) (uint64, error) {
-	var categoryID uint64
-	err := r.db.Get(
-		&categoryID, `
-			INSERT INTO category(category_name)
-			VALUES ($1)
-			RETURNING category_id
-			ON CONFLICT DO NOTHING;
-		`, category.Name,
-	)
-	if err != nil {
-		return 0, fmt.Errorf("error during category insert")
-	}
-
-	return categoryID, nil
+	return r.addAttribute(category, "category")
 }
 
 func (r *repository) AddAuthor(author models.Author) (uint64, error) {
-	var authorID uint64
-	err := r.db.Get(
-		&authorID, `
-			INSERT INTO category(category_name)
-			VALUES ($1)
-			RETURNING category_id
-			ON CONFLICT DO NOTHING;
-		`, author.Name,
-	)
-	if err != nil {
-		return 0, fmt.Errorf("error during author insert")
-	}
-
-	return authorID, nil
+	return r.addAttribute(author, "author")
 }

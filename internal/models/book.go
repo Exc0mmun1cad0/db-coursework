@@ -15,6 +15,22 @@ type Publisher struct {
 	Name string
 }
 
+func (a Author) GetName() string {
+	return a.Name
+}
+
+func (c Category) GetName() string {
+	return c.Name
+}
+
+func (p Publisher) GetName() string {
+	return p.Name
+}
+
+type BookAttribute interface {
+	GetName() string
+}
+
 type Book struct {
 	ID            uint64
 	Title         string

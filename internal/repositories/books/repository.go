@@ -24,11 +24,7 @@ func NewRepository(db *sqlx.DB) *repository {
 	}
 }
 
-type bookAttribute interface {
-	GetName() string
-}
-
-func (r *repository) addAttribute(attribute bookAttribute, name string) (uint64, error) {
+func (r *repository) addAttribute(attribute models.BookAttribute, name string) (uint64, error) {
 	var attributeID uint64
 
 	query := fmt.Sprintf(`

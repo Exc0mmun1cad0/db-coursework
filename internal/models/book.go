@@ -27,10 +27,6 @@ func (p Publisher) GetName() string {
 	return p.Name
 }
 
-type BookAttribute interface {
-	GetName() string
-}
-
 type Book struct {
 	ID            uint64
 	Title         string

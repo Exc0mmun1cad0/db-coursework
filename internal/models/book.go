@@ -1,5 +1,17 @@
 package models
 
+type Book struct {
+	ID            uint64
+	Title         string
+	Authors       []Author
+	Category      Category
+	Description   string
+	YearPublished int64
+	Publishers    []Publisher
+	ISBN          string
+	Amount        uint64
+}
+
 type Author struct {
 	ID   uint64
 	Name string
@@ -25,16 +37,4 @@ func (c Category) GetName() string {
 
 func (p Publisher) GetName() string {
 	return p.Name
-}
-
-type Book struct {
-	ID            uint64
-	Title         string
-	Authors       []Author
-	Category      Category
-	Description   string
-	YearPublished int64
-	Publishers    []Publisher
-	ISBN          string
-	Amount        uint64
 }

@@ -21,10 +21,12 @@ CREATE TABLE IF NOT EXISTS book
     title VARCHAR(127) NOT NULL,
     category_id INT NOT NULL,
     description TEXT,
-    year_publishing INT DEFAULT 0,
+    publsiher_id INT NOT NULL,
+    year_publishing INT NOT NULL,
     isbn VARCHAR(31),
     amount INT DEFAULT 0,
-    FOREIGN KEY (category_id) REFERENCES category (category_id)
+    FOREIGN KEY (category_id) REFERENCES category (category_id),
+    FOREIGN KEY (publisher_id) REFERENCES publisher (publisher_id)
 );
 
 CREATE TABLE IF NOT EXISTS author_book
@@ -33,12 +35,4 @@ CREATE TABLE IF NOT EXISTS author_book
     author_id INT NOT NULL REFERENCES author,
     book_id INT NOT NULL REFERENCES book,
     UNIQUE (author_id, book_id)
-);
-
-CREATE TABLE IF NOT EXISTS publisher_book
-(
-    publisher_book_id SERIAL PRIMARY KEY,
-    publisher_id INT NOT NULL REFERENCES publisher (publisher_id),
-    book_id INT NOT NULL REFERENCES book (book_id),
-    UNIQUE (publisher_id, book_id)
 );

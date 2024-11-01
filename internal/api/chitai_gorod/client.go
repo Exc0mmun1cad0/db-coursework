@@ -2,6 +2,8 @@ package chitaigorod
 
 import (
 	"net/http"
+
+	"github.com/pkg/errors"
 )
 
 type Client struct {
@@ -9,9 +11,13 @@ type Client struct {
 	httpClient *http.Client
 }
 
-func NewClient(authToken string) *Client {
+func NewClient() (*Client, error) {
+	authToken, err := newAuthToken()
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot receive auth token for chitai gorod API")
+	}
 	return &Client{
 		token:      authToken,
 		httpClient: &http.Client{},
-	}
+	}, nil
 }

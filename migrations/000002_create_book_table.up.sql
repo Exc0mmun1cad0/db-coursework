@@ -25,8 +25,6 @@ CREATE TABLE IF NOT EXISTS book
     year_publishing INT NOT NULL,
     isbn VARCHAR(63),
     amount INT DEFAULT 0
-    -- FOREIGN KEY (category_id) REFERENCES category (category_id),
-    -- FOREIGN KEY (publisher_id) REFERENCES publisher (publisher_id)
 );
 
 CREATE TABLE IF NOT EXISTS author_book

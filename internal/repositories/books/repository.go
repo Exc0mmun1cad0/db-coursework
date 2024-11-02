@@ -4,6 +4,7 @@ package books
 import (
 	"db-coursework/internal/models"
 	"fmt"
+	"log"
 	"math/rand"
 
 	"github.com/jmoiron/sqlx"
@@ -24,26 +25,28 @@ func NewRepository(db *sqlx.DB) *repository {
 func (r *repository) AddBooks(books []models.Book) ([]uint64, error) {
 	bookIDs := make([]uint64, 0, len(books))
 
-	authorMap := make(map[uint64]uint64)
-	publisherMap := make(map[uint64]uint64)
-	categoryMap := make(map[uint64]uint64)
+	authorMap := make(map[string]uint64)
+	publisherMap := make(map[string]uint64)
+	categoryMap := make(map[string]uint64)
 
-	for _, book := range books {
+	for i, book := range books {
+		log.Printf("inserting book: %d", i+1)
+
 		var err error
 		// Publisher
-		publisherID, ok := publisherMap[book.Publisher.ID]
-		if !ok && publisherID == 0 {
+		publisherID, ok := publisherMap[book.Publisher.Name]
+		if !ok {
 			publisherID, err = r.AddPublisher(book.Publisher)
-			publisherMap[book.Publisher.ID] = publisherID
+			publisherMap[book.Publisher.Name] = publisherID
 			if err != nil {
 				return nil, errors.Wrap(err, "error during insertion publisher into repository")
 			}
 		}
 		// Category
-		categoryID, ok := categoryMap[book.Category.ID]
-		if !ok && categoryID == 0 {
+		categoryID, ok := categoryMap[book.Category.Name]
+		if !ok {
 			categoryID, err = r.AddCategory(book.Category)
-			categoryMap[book.Category.ID] = categoryID
+			categoryMap[book.Category.Name] = categoryID
 			if err != nil {
 				return nil, errors.Wrap(err, "error during insertion category into repository")
 			}
@@ -56,10 +59,10 @@ func (r *repository) AddBooks(books []models.Book) ([]uint64, error) {
 
 		// Authors
 		for _, author := range book.Authors {
-			authorID, ok := authorMap[author.ID]
+			authorID, ok := authorMap[author.Name]
 			if !ok && authorID == 0 {
 				authorID, err = r.AddAuthor(author)
-				authorMap[author.ID] = authorID
+				authorMap[author.Name] = authorID
 				if err != nil {
 					return nil, errors.Wrap(err, "error during insertion author into repository")
 				}
@@ -114,8 +117,7 @@ func (r *repository) addAttribute(attribute bookAttribute, name string) (uint64,
 
 	query := fmt.Sprintf(`
 		INSERT INTO %s(%s_name) VALUES($1)
-		RETURNING %s_id
-		ON CONFLICT DO NOTHING;
+		RETURNING %s_id;
 	`, name, name, name)
 
 	err := r.db.Get(&attributeID, query, attribute.GetName())

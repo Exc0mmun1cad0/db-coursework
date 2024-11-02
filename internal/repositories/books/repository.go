@@ -139,3 +139,20 @@ func (r *repository) AddCategory(category models.Category) (uint64, error) {
 func (r *repository) AddAuthor(author models.Author) (uint64, error) {
 	return r.addAttribute(author, "author")
 }
+
+func (r *repository) AddBookLoan(bookLoan models.BookLoan) (uint64, error) {
+	var bookLoanID uint64
+
+	query := `INSERT INTO book_loan(book_id, customer_id, date_loaned, date_due, date_returned, amount)
+	VALUES ($1, $2, $3, $4, $5, $6)`
+
+	err := r.db.Get(
+		&bookLoanID, query,
+		bookLoan.Book.ID, bookLoan.Customer.ID, bookLoan.DateLoaned, bookLoan.DateDue, bookLoan.DateReturned, bookLoan.Amount,
+	)
+	if err != nil {
+		return 0, errors.Wrap(err, "error during book_loan insertion")
+	}
+
+	return bookLoanID, nil
+}

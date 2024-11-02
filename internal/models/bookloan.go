@@ -9,6 +9,5 @@ type BookLoan struct {
 	DateLoaned   time.Time
 	DateDue      time.Time
 	DateReturned time.Time
-	OverFineDue  time.Time
 	Amount       uint64
 }

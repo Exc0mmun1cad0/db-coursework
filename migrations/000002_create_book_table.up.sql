@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS book
 (
     book_id SERIAL PRIMARY KEY,
     title VARCHAR(127) NOT NULL,
-    category_id INT NOT NULL,
+    category_id INT NOT NULL REFERENCES category (category_id),
     description TEXT,
-    publsiher_id INT NOT NULL,
+    publisher_id INT NOT NULL REFERENCES publisher (publisher_id),
     year_publishing INT NOT NULL,
     isbn VARCHAR(63),
-    amount INT DEFAULT 0,
-    FOREIGN KEY (category_id) REFERENCES category (category_id),
-    FOREIGN KEY (publisher_id) REFERENCES publisher (publisher_id)
+    amount INT DEFAULT 0
+    -- FOREIGN KEY (category_id) REFERENCES category (category_id),
+    -- FOREIGN KEY (publisher_id) REFERENCES publisher (publisher_id)
 );
 
 CREATE TABLE IF NOT EXISTS author_book

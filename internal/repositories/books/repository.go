@@ -4,14 +4,10 @@ package books
 import (
 	"db-coursework/internal/models"
 	"fmt"
+	"math/rand"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
-)
-
-const (
-	// size of customers batch to insert per query
-	batch = 100
 )
 
 type repository struct {
@@ -22,6 +18,91 @@ func NewRepository(db *sqlx.DB) *repository {
 	return &repository{
 		db: db,
 	}
+}
+
+// This function is runned only once when filling db with books data
+func (r *repository) AddBooks(books []models.Book) ([]uint64, error) {
+	bookIDs := make([]uint64, 0, len(books))
+
+	authorMap := make(map[uint64]uint64)
+	publisherMap := make(map[uint64]uint64)
+	categoryMap := make(map[uint64]uint64)
+
+	for _, book := range books {
+		var err error
+		// Publisher
+		publisherID, ok := publisherMap[book.Publisher.ID]
+		if !ok && publisherID == 0 {
+			publisherID, err = r.AddPublisher(book.Publisher)
+			publisherMap[book.Publisher.ID] = publisherID
+			if err != nil {
+				return nil, errors.Wrap(err, "error during insertion publisher into repository")
+			}
+		}
+		// Category
+		categoryID, ok := categoryMap[book.Category.ID]
+		if !ok && categoryID == 0 {
+			categoryID, err = r.AddCategory(book.Category)
+			categoryMap[book.Category.ID] = categoryID
+			if err != nil {
+				return nil, errors.Wrap(err, "error during insertion category into repository")
+			}
+		}
+		bookID, err := r.addBook(book.Title, book.Description, book.ISBN, categoryID, publisherID, book.YearPublishing)
+		if err != nil {
+			return nil, errors.Wrap(err, "error during book insert")
+		}
+		bookIDs = append(bookIDs, bookID)
+
+		// Authors
+		for _, author := range book.Authors {
+			authorID, ok := authorMap[author.ID]
+			if !ok && authorID == 0 {
+				authorID, err = r.AddAuthor(author)
+				authorMap[author.ID] = authorID
+				if err != nil {
+					return nil, errors.Wrap(err, "error during insertion author into repository")
+				}
+			}
+			_, err := r.addAuthorBook(bookID, authorID)
+			if err != nil {
+				return nil, errors.Wrap(err, "error during insertion new author book relation")
+			}
+		}
+
+	}
+
+	return bookIDs, nil
+}
+
+func (r *repository) addBook(title, description, isbn string, category_id, publisher_id uint64, year_publishing int64) (uint64, error) {
+	var bookID uint64
+	amount := rand.Intn(15) + 1
+
+	query := `INSERT INTO book(title, category_id, description, publisher_id, year_publishing, isbn, amount)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		RETURNING book_id
+	`
+
+	err := r.db.Get(&bookID, query, title, category_id, description, publisher_id, year_publishing, isbn, amount)
+	if err != nil {
+		return 0, errors.Wrap(err, "error during book insert")
+	}
+
+	return bookID, nil
+}
+
+func (r *repository) addAuthorBook(bookID, authorID uint64) (uint64, error) {
+	var bookAuthorID uint64
+
+	query := `INSERT INTO author_book(author_id, book_id) VALUES ($1, $2) RETURNING author_book_id`
+
+	err := r.db.Get(&bookAuthorID, query, authorID, bookID)
+	if err != nil {
+		return 0, errors.Wrap(err, "error during adding new author book relation")
+	}
+
+	return bookAuthorID, nil
 }
 
 type bookAttribute interface {

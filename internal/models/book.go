@@ -8,7 +8,7 @@ type Book struct {
 	Description   string
 	YearPublished int64
 	Publishers    []Publisher
-	ISBN          string
+	Pages         int
 	Amount        uint64
 }
 

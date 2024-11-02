@@ -4,6 +4,7 @@ package chitaigorod
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -13,7 +14,7 @@ import (
 )
 
 var (
-	chitaiGorodURL = "https://chitai-gorod.ru"
+	chitaiGorodHost = "chitai-gorod.ru"
 	// name for the file where auth token will be cached
 	tokenFile = "token.txt"
 )
@@ -81,7 +82,12 @@ func parseAuthToken(rawToken string) (int64, error) {
 func getTokenFromRequest() (string, error) {
 	const op = "chitaigorod.getTokenFromRequest"
 
-	resp, err := http.Get(chitaiGorodURL)
+	u := url.URL{
+		Scheme: "https",
+		Host:   chitaiGorodHost,
+	}
+
+	resp, err := http.Get(u.String())
 	if err != nil {
 		return "", errors.Wrap(err, op)
 	}

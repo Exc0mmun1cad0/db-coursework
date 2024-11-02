@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS book
     description TEXT,
     publsiher_id INT NOT NULL,
     year_publishing INT NOT NULL,
-    pages INT,
+    isbn VARCHAR(63),
     amount INT DEFAULT 0,
     FOREIGN KEY (category_id) REFERENCES category (category_id),
     FOREIGN KEY (publisher_id) REFERENCES publisher (publisher_id)

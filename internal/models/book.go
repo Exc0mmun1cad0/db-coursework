@@ -1,15 +1,15 @@
 package models
 
 type Book struct {
-	ID            uint64
-	Title         string
-	Authors       []Author
-	Category      Category
-	Description   string
-	YearPublished int64
-	Publishers    []Publisher
-	Pages         int
-	Amount        uint64
+	ID             uint64
+	Title          string
+	Authors        []Author
+	Category       Category
+	Description    string
+	YearPublishing int64
+	Publisher      Publisher
+	Amount         uint64
+	ISBN           string
 }
 
 type Author struct {

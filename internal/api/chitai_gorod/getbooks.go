@@ -11,10 +11,9 @@ import (
 )
 
 const (
-	chitaigorodScheme = "https"
-	chitaigorodHost   = "web-gate.chitai-gorod.ru"
-	chitaigorodPath   = "/api/v2/products"
-	batch             = 20 //perPage
+	chitaiGorodAPIHost = "web-gate.chitai-gorod.ru"
+	chitaigorodPath    = "/api/v2/products"
+	batch              = 20 //perPage
 )
 
 // URL query params
@@ -56,9 +55,9 @@ func (c *Client) getBooks(v url.Values, page, perPage int) ([]Data, error) {
 	v.Set("products[perPage]", strconv.Itoa(perPage))
 
 	u := url.URL{
-		Scheme:   chitaigorodScheme,
+		Scheme:   "https",
 		Path:     chitaigorodPath,
-		Host:     chitaigorodHost,
+		Host:     chitaiGorodAPIHost,
 		RawQuery: v.Encode(),
 	}
 	perform := u.String()

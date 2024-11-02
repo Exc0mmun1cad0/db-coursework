@@ -23,7 +23,6 @@ type Data struct {
 		Description string `json:"description"`
 		ID          int    `json:"id"`
 		IsBook      bool   `json:"isBook"`
-		Pages       string `json:"pages"`
 		Publisher   struct {
 			ID    int    `json:"id"`
 			Title string `json:"title"`

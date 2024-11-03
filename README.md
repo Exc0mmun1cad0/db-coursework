@@ -29,4 +29,4 @@ Run
 ```bash
 cmd/run.sh
 ```
-Dump of db will be in dump.sql file in project directory
+Dump of db will be in `dump.sql` file in project directory

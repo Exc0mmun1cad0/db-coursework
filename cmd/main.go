@@ -22,6 +22,10 @@ var (
 )
 
 func main() {
+	generateData()
+}
+
+func generateData() {
 	// postgres initalization
 	cfg := config.MustLoad()
 	conn, err := postgresql.NewClient(cfg.PostgreSQL)

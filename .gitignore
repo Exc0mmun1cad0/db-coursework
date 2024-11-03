@@ -26,4 +26,6 @@ go.work.sum
 
 ##### Custom inore rules #####
 config.yaml
-docker-compose.yaml
+drawio
+token.txt
+dump.sql

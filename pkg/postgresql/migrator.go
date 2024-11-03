@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -29,19 +30,14 @@ func Migrate(cfg config.PostgreSQL) error {
 	}
 
 	for {
-		if err := m.Steps(1); err != nil {
-			if err == migrate.ErrNoChange {
-				log.Println("All migrations applied")
-				break
-			}
-			return errors.Wrap(err, "error during migration")
-		} else {
-			version, dirty, err := m.Version()
-			if err != nil {
-				return errors.Wrap(err, "error during migration")
-			}
-			log.Printf("Applied migration: %d, Dirty: %t\n", version, dirty)
+		err = m.Up()
+		if err == migrate.ErrNoChange {
+			log.Println("All migrations are applied")
+			break
+		} else if err != nil {
+			return errors.Wrap(err, "Migrations failed")
 		}
+		time.Sleep(1 * time.Second)
 	}
 
 	return nil

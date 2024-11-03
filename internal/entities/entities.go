@@ -1,6 +1,19 @@
+//* This package looks useless. Maybe I'll delete it in the future
 package entities
 
 import "time"
+
+type Customer struct {
+	ID          uint64
+	LastName    string
+	FirstName   string
+	FatherName  string
+	Gender      string
+	DateOfBirth time.Time
+	Phone       string
+	Email       string
+	Address     string
+}
 
 type Book struct {
 	ID            uint64
@@ -34,17 +47,6 @@ type BookPublisher struct {
 type Category struct {
 	ID   uint64
 	Name string
-}
-
-type Customer struct {
-	LastName   string
-	FirstName  string
-	FatherName string
-	Gender     string
-	BirthDate  time.Time
-	Phone      string
-	Email      string
-	Address    string
 }
 
 type BookLoan struct {

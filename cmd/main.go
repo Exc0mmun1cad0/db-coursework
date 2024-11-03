@@ -7,15 +7,18 @@ import (
 	"db-coursework/internal/mapping"
 	"db-coursework/internal/repositories/books"
 	"db-coursework/internal/repositories/customers"
+	"db-coursework/lib/randombookloan"
 	"db-coursework/pkg/postgresql"
 	"fmt"
 	"log"
+	"time"
 )
 
-// TODO: move to config
 var (
 	customersCount = 100
 	booksCount     = 41
+	bookloansCount = 50
+	dateSince      = time.Date(2020, time.Month(5), 7, 0, 0, 0, 0, time.Local)
 )
 
 func main() {
@@ -25,7 +28,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("initialized db for storing library data")
+	log.Println("initialized db for storing library data")
 
 	// doing migrations
 	err = postgresql.Migrate(cfg.PostgreSQL)
@@ -43,7 +46,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("customers data was added")
+	log.Println("customers data was added")
 
 	// Adding books and related objects
 	bookRepo := books.NewRepository(conn)
@@ -68,4 +71,15 @@ func main() {
 	}
 	log.Println("books data was added")
 
+	bookLoans := randombookloan.GenerateBookLoans(bookloansCount, dateSince, uint64(len(customerIDs)), uint64(len(bookIDs)))
+	log.Println("generated bookloans")
+	fmt.Println(bookLoans)
+	for _, bookLoan := range bookLoans {
+		fmt.Println(bookLoan)
+		_, err := bookRepo.AddBookLoan(bookLoan)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	log.Println("bookloans data was added")
 }

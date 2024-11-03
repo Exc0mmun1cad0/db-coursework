@@ -30,7 +30,7 @@ func (r *repository) AddBooks(books []models.Book) ([]uint64, error) {
 	categoryMap := make(map[string]uint64)
 
 	for i, book := range books {
-		log.Printf("inserting book: %d", i+1)
+		log.Printf("inserting book: %d/%d", i+1, len(books))
 
 		var err error
 		// Publisher
@@ -144,11 +144,11 @@ func (r *repository) AddBookLoan(bookLoan models.BookLoan) (uint64, error) {
 	var bookLoanID uint64
 
 	query := `INSERT INTO book_loan(book_id, customer_id, date_loaned, date_due, date_returned, amount)
-	VALUES ($1, $2, $3, $4, $5, $6)`
+	VALUES ($1, $2, $3, $4, $5, $6) RETURNING book_loan_id;`
 
 	err := r.db.Get(
 		&bookLoanID, query,
-		bookLoan.Book.ID, bookLoan.Customer.ID, bookLoan.DateLoaned, bookLoan.DateDue, bookLoan.DateReturned, bookLoan.Amount,
+		bookLoan.Book, bookLoan.Customer, bookLoan.DateLoaned, bookLoan.DateDue, bookLoan.DateReturned, bookLoan.Amount,
 	)
 	if err != nil {
 		return 0, errors.Wrap(err, "error during book_loan insertion")

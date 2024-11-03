@@ -4,8 +4,8 @@ import "time"
 
 type BookLoan struct {
 	ID           uint64
-	Book         Book
-	Customer     Customer
+	Book         uint64
+	Customer     uint64
 	DateLoaned   time.Time
 	DateDue      time.Time
 	DateReturned time.Time

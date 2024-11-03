@@ -2,7 +2,7 @@
 package mapping
 
 import (
-	chitaigorod "db-coursework/internal/api/chitai_gorod"
+	"db-coursework/internal/api/chitaigorod"
 	"db-coursework/internal/models"
 	"strings"
 

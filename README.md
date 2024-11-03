@@ -20,6 +20,16 @@ postgresql:
     db_name:
     ssl_mode:
 ```
+Example:
+```yaml
+postgresql:
+  host: "localhost"
+  port:  5432
+  user: "test-user"
+  password: "qwert"
+  db_name: "test-db"
+  ssl_mode: "disable"
+```
 All fields except port are of the string format, port is integer
 Add docker parameters to `cmd/run.sh` to the appropriate export commands
 

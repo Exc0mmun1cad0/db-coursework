@@ -9,6 +9,9 @@ My implementation of the course work on the subject of databases and network tec
 - Books, authors and publishers: `chitai-gorod.ru`
 - Customers: API `https://randomdatatools.ru` which generates fake data
 
+## Database schema
+![Library database schema](images/schema.png)
+
 ## Configuration
 Add file `config.yaml` with postgres credentials of the following format to the project directory
 ```yaml

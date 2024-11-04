@@ -26,6 +26,5 @@ go.work.sum
 
 ##### Custom inore rules #####
 config.yaml
-drawio
 token.txt
 dump.sql

@@ -33,6 +33,7 @@ postgresql:
   db_name: "test-db"
   ssl_mode: "disable"
 ```
+Also add postgres container data in `cmd/env.sh`
 All fields except port are of the string format, port is integer
 Add docker parameters to `cmd/run.sh` to the appropriate export commands
 

@@ -38,7 +38,7 @@ All fields except port are of the string format, port is integer.
 Add docker parameters to `cmd/run.sh` to the appropriate export commands.
 
 ## Running
-You need installed golang and docker.
+You need installed Go 1.22 and docker.
 Run with:
 ```bash
 cmd/run.sh

@@ -33,13 +33,13 @@ postgresql:
   db_name: "test-db"
   ssl_mode: "disable"
 ```
-Also add postgres container data in `cmd/env.sh`
-All fields except port are of the string format, port is integer
-Add docker parameters to `cmd/run.sh` to the appropriate export commands
+Also add postgres container data in `cmd/env.sh`.
+All fields except port are of the string format, port is integer.
+Add docker parameters to `cmd/run.sh` to the appropriate export commands.
 
 ## Running
-You need installed golang and docker
-Run
+You need installed golang and docker.
+Run with:
 ```bash
 cmd/run.sh
 ```
